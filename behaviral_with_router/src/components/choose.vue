@@ -1,9 +1,11 @@
 <script>
 import Timer from "./timer.vue";
+import axios, * as others from 'axios';
 export default {
   components: { Timer },
   data() {
     return {
+      timer0: '',
       stock_name: "fuck",
       stock_ratio: 10,
       stock_name_2: "fuck_2",
@@ -29,32 +31,53 @@ export default {
   },
 
   mounted() {
-    setInterval(() => {
+    axios
+      .get('http://172.22.181.156:8000/get_user_info')
+      .then(response => {
+        this.stock_name = response.data.stock_name
+        this.stock_name_2 = response.data.stock_name_2
+        this.stock_name_3 = response.data.stock_name_3
+
+        this.stock_ratio = response.data.stock_ratio
+        this.stock_ratio_2 = response.data.stock_ratio_2
+        this.stock_ratio_3 = response.data.stock_ratio_3
+      });
+
+    this.timer0 = setInterval(() => {
       this.time = this.time + 1
-      if (this.time == 21) {
-        this.$router.push('About')
-      }
     }, 1000)
+  },
+
+  watch: {
+    time(newTime, oldTime) {
+      if (newTime === 20) {
+        axios
+          .post('http://172.22.181.156:8000/get_stock_info', {
+            ratio: 20,
+            ratio_2: 20,
+            ratio_3: 20,
+            remain: 40
+          });
+        this.$router.push('question')
+      }
+    }
   },
 
   methods: {
     post_ratio() {
-
       axios
-        .post('http://172.20.10.2:5000/post_ratio_api', {
-          stock_ratio: this.stock_ratio,
-          stock_ratio_2: this.stock_ratio_2,
-          stock_ratio_3: this.stock_ratio_3
-        }).then(function (response) {
-          console.log(response)
-        })
-        .catch(function (error) {
-          console.log(error)
+        .post('http://172.22.181.156:8000/get_stock_info', {
+          ratio: this.stock_ratio,
+          ratio_2: this.stock_ratio_2,
+          ratio_3: this.stock_ratio_3,
+          remain: 100 - this.stock_ratio - this.stock_ratio_2 - this.stock_ratio_3
         });
-      this.$router.push('About')
-    
+      this.$router.push('question')
     }
   },
+  beforeDestroy() {
+    clearInterval(this.timer0);
+  }
 }
 
 </script>

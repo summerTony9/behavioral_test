@@ -30,12 +30,19 @@ export default {
   },
 
   mounted() {
+    axios
+      .get('http://172.22.181.156:8000/get_user_info')
+      .then(response => (this.stock_name = response.stock_name));
+
     setInterval(() => {
       this.time = this.time + 1
       if(this.time == 20){
         window.location.href = 'http://www.google.com'
       }
     }, 1000)
+
+    
+
   },
 
   methods: {

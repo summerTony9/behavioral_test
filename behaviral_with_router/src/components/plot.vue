@@ -1,5 +1,6 @@
 <script>
 import { VueEcharts } from 'vue3-echarts';
+import axios, * as others from 'axios';
 export default {
   data() {
     return {
@@ -55,14 +56,29 @@ export default {
       }
     }
   },
+  mounted() {
+    axios
+      .get('http://172.22.181.156:8000/get_figure')
+      .then(response => {
+        this.option = response.data
+      });
+  },
+
   components: {
     VueEcharts,
+  },
+
+  methods: {
+    click_yes(){
+      this.$router.push('question2')
+    }
   },
 }
 </script>
 
 <template>
   <vue-echarts :option="option" style="height: 500px" ref="chart" />
+  <button type="button" class="btn btn-primary float-start" @click="click_yes">ok</button>
 </template>
 
 

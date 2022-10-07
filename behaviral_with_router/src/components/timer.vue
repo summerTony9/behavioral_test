@@ -16,7 +16,10 @@
       per(){
         return this.time * 5
       } 
-    }
+    },
+    beforeDestroy() {
+      clearInterval(this.time);
+    },
   }
 </script>
 
