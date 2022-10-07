@@ -1,18 +1,21 @@
 <script>
+import axios, * as others from 'axios';
+import Game_time from './game_time.vue';
 export default {
-  methods: {
-    click_yes(){
-      this.$router.push('reward')
+    methods: {
+        click_yes() {
+            this.$router.push("reward");
+        },
+        click_no() {
+            this.$router.push("/");
+        }
     },
-    
-    click_no(){
-      this.$router.push('/')
-    }
-  }
+    components: { Game_time }
 }
 </script>
 
 <template>
+  <Game_time></Game_time>
   <div class="card shadow p-2 mb-2 bg-body rounded">
     <div class="card-body">
       <p class="card-text">是否查看本轮您的个人资产组合收益?</p>
