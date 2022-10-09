@@ -5,6 +5,7 @@ import Game_time from './game_time.vue';
 export default {
   data() {
     return {
+      option2: {},
       option: {
         title: {
           text: '市场A'
@@ -59,29 +60,42 @@ export default {
   },
   mounted() {
     axios
-      .get('http://127.0.0.1:8000/get_figure')
+      .get('http://127.0.0.1:8000/get_figure', {
+        params: {
+          id: this.$route.query.id,
+          nround: this.$route.query.nround
+        }
+      })
       .then(response => {
-        this.option = response.data
+        this.option = response.data.op1
+        this.option2 = response.data.op2
       });
   },
 
   components: {
     VueEcharts,
     Game_time
-},
+  },
 
   methods: {
     click_yes() {
-      this.$router.push('question2')
+      this.$router.push({
+        name: "question2",
+        query: {
+          id: this.$route.query.id,
+          nround: this.$route.query.nround
+        }
+      })
     }
   },
 }
 </script>
 
 <template>
-  <game_time></game_time>
-  <vue-echarts :option="option" style="height: 500px" ref="chart" />
-  <button type="button" class="btn btn-primary float-start" @click="click_yes">ok</button>
+  <Game_time :userName="this.$route.query.id" :nround="this.$route.query.nround"></Game_time>
+  <vue-echarts :option="option" style="height: 300px" ref="chart" />
+  <vue-echarts :option="option2" style="height: 300px" ref="chart" />
+  <button type="button" class="btn btn-outline-primary float-start" @click="click_yes">ok</button>
 </template>
 
 

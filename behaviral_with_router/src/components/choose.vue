@@ -24,17 +24,26 @@ export default {
 
     is_valid() {
       if (this.stock_ratio + this.stock_ratio_2 + this.stock_ratio_3 > 100) {
-        return "btn btn-primary disabled"
+        return "btn btn-outline-primary disabled"
       } else {
-        return "btn btn-primary"
+        return "btn btn-outline-primary"
       }
     },
-
   },
 
   mounted() {
+    if (parseInt(this.$route.query.nround) === 11) {
+      this.$router.push('/')
+    }
+
+
     axios
-      .get('http://127.0.0.1:8000/get_user_info')
+      .get('http://127.0.0.1:8000/get_user_info', {
+        params: {
+          userName: this.$route.query.id,
+          nround: this.$route.query.nround
+        }
+      })
       .then(response => {
         this.stock_name = response.data.stock_name
         this.stock_name_2 = response.data.stock_name_2
@@ -46,7 +55,9 @@ export default {
       });
 
     axios
-      .post('http://127.0.0.1:8000/post_time');
+      .post('http://127.0.0.1:8000/post_time', {
+        userName: this.$route.query.id,
+      });
 
 
     this.timer0 = setInterval(() => {
@@ -62,9 +73,17 @@ export default {
             ratio: 20,
             ratio_2: 20,
             ratio_3: 20,
-            remain: 40
+            remain: 40,
+            userName: this.$route.query.id,
+            nround: this.$route.query.nround
           });
-        this.$router.push('market')
+        this.$router.push({
+          name: "market",
+          query: {
+            id: this.$route.query.id,
+            nround: this.$route.query.nround
+          }
+        })
       }
     }
   },
@@ -73,12 +92,20 @@ export default {
     post_ratio() {
       axios
         .post('http://127.0.0.1:8000/get_stock_info', {
+          userName: this.$route.query.id,
+          nround: this.$route.query.nround,
           ratio: this.stock_ratio,
           ratio_2: this.stock_ratio_2,
           ratio_3: this.stock_ratio_3,
           remain: 100 - this.stock_ratio - this.stock_ratio_2 - this.stock_ratio_3
         });
-      this.$router.push('market')
+      this.$router.push({
+        name: "market",
+        query: {
+          id: this.$route.query.id,
+          nround: this.$route.query.nround
+        }
+      })
     }
   },
   beforeDestroy() {
@@ -89,7 +116,7 @@ export default {
 </script>
 
 <template>
-  <Game_time></Game_time>
+  <Game_time :userName="this.$route.query.id" :nround="this.$route.query.nround"></Game_time>
   <div class="shadow p-2 mb-2 bg-body rounded">
     本次决策剩余{{15-time}}秒
   </div>
@@ -118,7 +145,7 @@ export default {
   <div class="shadow p-2 mb-2 bg-body rounded">
     当前未投资资产比例 {{100 - fuck}} %
   </div>
-  <div class="d-grid gap-2">
+  <div class="d-grid gap-2 mb-2">
     <button type="button" :class="is_valid" @click="post_ratio">提交</button>
   </div>
   <transition name="fade">
