@@ -1,9 +1,5 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
 import Navbar from '../components/navbar.vue'
-import Plot from '../components/plot.vue'
-import Question from '../components/question.vue';
-import Question2 from '../components/question2.vue';
 import LoginForm from '../components/loginForm.vue';
 </script>
       

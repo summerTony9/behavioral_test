@@ -1,6 +1,6 @@
 <script setup>
 import Navbar from '../components/navbar.vue'
-import Question2 from '../components/question2.vue';
+import Calculate from '../components/calculate.vue';
 </script>
       
 <template>
@@ -9,7 +9,7 @@ import Question2 from '../components/question2.vue';
     <div class="row">
       <div class="col"></div>
       <div class="col-8">
-        <Question2></Question2>
+        <Calculate></Calculate>
       </div>
       <div class="col"></div>
     </div>

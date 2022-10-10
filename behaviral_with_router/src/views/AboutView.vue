@@ -1,5 +1,4 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
 import Navbar from '../components/navbar.vue'
 import Plot from '../components/plot.vue'
 </script>

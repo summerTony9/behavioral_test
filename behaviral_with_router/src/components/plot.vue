@@ -14,7 +14,7 @@ export default {
           trigger: 'axis'
         },
         legend: {
-          data: ['Email', 'Union Ads', 'Video Ads']
+          data: ['A', 'B', 'C']
         },
         grid: {
           left: '3%',
@@ -30,29 +30,29 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: ['Day0']
         },
         yAxis: {
           type: 'value'
         },
         series: [
           {
-            name: 'Email',
+            name: 'A',
             type: 'line',
             // stack: 'Total',
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: [100]
           },
           {
-            name: 'Union Ads',
+            name: 'B',
             type: 'line',
             // stack: 'Total',
-            data: [220, 182, 191, 234, 290, 330, 310]
+            data: [100]
           },
           {
-            name: 'Video Ads',
+            name: 'C',
             type: 'line',
             // stack: 'Total',
-            data: [150, 232, 201, 154, 190, 330, 410]
+            data: [100]
           }
         ]
       }

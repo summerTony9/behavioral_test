@@ -7,11 +7,11 @@ export default {
   data() {
     return {
       timer0: '',
-      stock_name: "fuck",
+      stock_name: "A",
       stock_ratio: 10,
-      stock_name_2: "fuck_2",
+      stock_name_2: "B",
       stock_ratio_2: 10,
-      stock_name_3: "fuck_3",
+      stock_name_3: "C",
       stock_ratio_3: 10,
       time: 0,
 
@@ -33,7 +33,13 @@ export default {
 
   mounted() {
     if (parseInt(this.$route.query.nround) === 11) {
-      this.$router.push('/')
+      this.$router.push({
+        name: "calculate",
+        query: {
+          id: this.$route.query.id,
+          nround: this.$route.query.nround
+        }
+      })
     }
 
 
